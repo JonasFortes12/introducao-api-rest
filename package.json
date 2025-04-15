@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Códigos exemplo das aulas de API REST",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/JonasFortes12/introducao-api-rest/issues"
   },
-  "homepage": "https://github.com/JonasFortes12/introducao-api-rest#readme"
+  "homepage": "https://github.com/JonasFortes12/introducao-api-rest#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
