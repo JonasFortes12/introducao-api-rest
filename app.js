@@ -14,17 +14,44 @@ const usuarios = [
 ]
 
 
+// Rota início
 app.get("/", (req, res)=>{
 
     res.send("Bem vindo a minha API!")
 
 })
 
+//Rota cria usuário
 app.post("/criarUsuario", (req, res) => {
-    const { nome, sobrenome } = req.body;
-    
-    res.send(`Nome: ${nome} | Sobrenome: ${sobrenome}`)
+    const { nome, email } = req.body;
+
+    const novoUsuario = {
+        id: usuarios[usuarios.length-1].id + 1,
+        nome: nome,
+        email: email
+    }
+
+    usuarios.push(novoUsuario)
+
+    res.send(usuarios)
 })
+
+app.put("/usuario/:id", (req, res)=>{
+    const { id } = req.params
+    const {novoNome, novoEmail} = req.body
+
+    const indice = usuarios.findIndex((usuario)=>{
+        return usuario.id == id
+    })
+
+    usuarios[indice].nome = novoNome
+    usuarios[indice].email = novoEmail
+
+    res.send(usuarios)
+
+})
+
+
 /** 
  * Crie uma rota(endpoint) do tipo GET com URI: /usuarios 
  * que envie uma resposta (mensagem) com todos os 
@@ -35,6 +62,40 @@ app.get("/usuarios", (req, res) => {
     res.send(usuarios)
 
 })
+
+
+/**
+ * Faça uma rota para deletar um usuário de acordo com o id
+ * recebido por parâmetro
+ *  Método: DELETE
+ *  Endpoint: /usuario/:id
+ * 
+ *  Resposta: a lista de usuários atualizada
+ * 
+ * dica: use o splice() para remover o usuário da lista
+ */
+
+app.delete("/usuarios/:id", (req, res)=>{
+    //const id = req.params.id
+    const { id } = req.params
+
+    const index = usuarios.findIndex((usuario)=>{
+        return usuario.id == parseInt(id)
+    })
+
+    if (index === -1) {
+        res.send("Usuário não encontrado!")
+    }else{
+        usuarios.splice(index, 1)
+        res.send(usuarios)
+    }
+
+})
+
+
+
+
+
 
 
 app.listen(port, ()=>{
