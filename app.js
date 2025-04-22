@@ -33,7 +33,7 @@ app.post("/criarUsuario", (req, res) => {
 
     usuarios.push(novoUsuario)
 
-    res.send(usuarios)
+    res.status(201).send(usuarios)
 })
 
 app.put("/usuario/:id", (req, res)=>{
@@ -43,6 +43,13 @@ app.put("/usuario/:id", (req, res)=>{
     const indice = usuarios.findIndex((usuario)=>{
         return usuario.id == id
     })
+
+    //if indice === -1, dê como resposta da requisição 
+    // o status 404
+    if(indice === -1){
+        return res.status(404).json(
+            {mensagem: "Usuário não encontrado!"})
+    }
 
     usuarios[indice].nome = novoNome
     usuarios[indice].email = novoEmail
@@ -59,7 +66,8 @@ app.put("/usuario/:id", (req, res)=>{
 */
 app.get("/usuarios", (req, res) => {
 
-    res.send(usuarios)
+    // res.json(usuarios)
+    res.status(200).json(usuarios)
 
 })
 
@@ -84,7 +92,8 @@ app.delete("/usuarios/:id", (req, res)=>{
     })
 
     if (index === -1) {
-        res.send("Usuário não encontrado!")
+        res.status(404).json(
+            {mensagem: "Usuário não encontrado!"})
     }else{
         usuarios.splice(index, 1)
         res.send(usuarios)
